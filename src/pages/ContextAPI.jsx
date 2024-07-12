@@ -3,7 +3,7 @@ import Form from '../components/Form';
 import { useContextAPI } from '../hooks/useContextAPI';
 
 function ContextAPI() {
-  const [
+  const {
     users,
     currentId,
     currentField,
@@ -17,7 +17,7 @@ function ContextAPI() {
     data,
     filteredUser,
     handleSelectUnique,
-  ] = useContextAPI();
+  } = useContextAPI();
 
   return (
     <>

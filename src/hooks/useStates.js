@@ -20,7 +20,6 @@ export function useStates() {
     );
   }
 
-  // handlling selection id store in data
   function handelChange(e) {
     e.preventDefault();
     const id = parseInt(e.target.value);
@@ -34,7 +33,6 @@ export function useStates() {
     }
   }
 
-  //updating or save the data as per the condition
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -43,7 +41,6 @@ export function useStates() {
     const newUser = {};
     let isValid = true;
 
-    // Populate newUser object with form data
     formData.forEach((value, key) => {
       if (value.trim() === '') {
         alert(key + ' should have a value');
@@ -53,17 +50,13 @@ export function useStates() {
       }
     });
 
-    // Check if a user is selected for update
-
     if (isValid) {
       if (selectedID !== 0) {
-        // Update the specific user based on selectedID
         const newUsers = update(users, selectedID, newUser);
         setUsers(newUsers);
 
-        setData(initialState); // Reset selectedID
+        setData(initialState);
       } else {
-        // Add a new user if selectedID is 'null'
         setUsers((prevUsers) => [
           ...prevUsers,
           { id: new Date().getTime(), ...newUser },
@@ -72,10 +65,9 @@ export function useStates() {
     }
     setSelectedID(0);
 
-    e.target.reset(); // Reset the form after submission
+    e.target.reset();
   }
 
-  //handle delete
   function handleDelete() {
     const newUsers = users.filter((user) => user.id !== parseInt(selectedID));
     setUsers([...newUsers]);
@@ -109,7 +101,7 @@ export function useStates() {
     setUniqValue(e.target.value);
   }
 
-  return [
+  return {
     users,
     selectedID,
     data,
@@ -123,5 +115,5 @@ export function useStates() {
     handleAllButton,
     handleOnChangeForField,
     handleOnChangeForUniqValue,
-  ];
+  };
 }

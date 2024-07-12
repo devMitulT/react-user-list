@@ -4,7 +4,7 @@ import Filter from '../components/Filter';
 import { useStates } from '../hooks/useStates';
 
 function State() {
-  const [
+  const {
     users,
     selectedID,
     data,
@@ -18,7 +18,7 @@ function State() {
     handleAllButton,
     handleOnChangeForField,
     handleOnChangeForUniqValue,
-  ] = useStates();
+  } = useStates();
 
   return (
     <>

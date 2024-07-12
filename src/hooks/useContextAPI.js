@@ -58,7 +58,6 @@ export function useContextAPI() {
     }
 
     setData(initialState);
-    // dispatch({ type: userConst., payload: 0 });
 
     e.target.reset();
   }
@@ -67,7 +66,6 @@ export function useContextAPI() {
     if (users.length == 0) return;
 
     dispatch({ type: userConst.DELETE });
-    // dispatch({ type: 'selectID', payload: 0 });
     setData(initialState);
   }
 
@@ -89,7 +87,7 @@ export function useContextAPI() {
   function handleSelectUnique(e) {
     dispatch({ type: userConst.SELECT_UNIQUE, payload: e.target.value });
   }
-  return [
+  return {
     users,
     currentId,
     currentField,
@@ -103,5 +101,5 @@ export function useContextAPI() {
     data,
     filteredUser,
     handleSelectUnique,
-  ];
+  };
 }

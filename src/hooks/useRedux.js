@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -98,7 +98,7 @@ export function useRedux() {
     dispatch(selectValue(value));
   }
 
-  return [
+  return {
     users,
     currentId,
     currentField,
@@ -112,5 +112,5 @@ export function useRedux() {
     data,
     filteredUser,
     handleSelectUnique,
-  ];
+  };
 }

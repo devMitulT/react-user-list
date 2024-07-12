@@ -3,7 +3,7 @@ import Form from '../components/Form';
 import { useRedux } from '../hooks/useRedux';
 
 function Redux() {
-  const [
+  const {
     users,
     currentId,
     currentField,
@@ -17,7 +17,7 @@ function Redux() {
     data,
     filteredUser,
     handleSelectUnique,
-  ] = useRedux();
+  } = useRedux();
 
   return (
     <>
