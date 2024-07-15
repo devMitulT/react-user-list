@@ -1,23 +1,25 @@
+import { TableComp, Thead, TC, TR, TBody } from './MuiComponents';
+
 function Table({ users, field }) {
   return (
-    <table border='1px'>
-      <thead>
-        <tr>
+    <TableComp border='1px'>
+      <Thead>
+        <TR>
           {field.map((heading) => (
-            <th key={heading}>{heading}</th>
+            <TC key={heading}>{heading.toUpperCase()}</TC>
           ))}
-        </tr>
-      </thead>
-      <tbody>
+        </TR>
+      </Thead>
+      <TBody>
         {users.map((user) => (
-          <tr key={user.id}>
+          <TR key={user.id}>
             {field.map((key) => (
-              <td key={key}>{user[key]}</td>
+              <TC key={key}>{user[key]}</TC>
             ))}
-          </tr>
+          </TR>
         ))}
-      </tbody>
-    </table>
+      </TBody>
+    </TableComp>
   );
 }
 

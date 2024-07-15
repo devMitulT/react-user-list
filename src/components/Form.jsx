@@ -1,53 +1,5 @@
-// function Form({
-//   handleSubmit,
-//   data,
-//   selectedID,
-//   handelChange,
-//   users,
-//   handleDelete,
-//  key = `some `
-// }) {
-//   return (
-//     <>
-//       <form onSubmit={handleSubmit}>
-//         <label>Name : </label>
-//         <input type='text' name='name' defaultValue={data.name} />
-//         <br />
-//         <br />
-
-//         <label> City : </label>
-//         <input type='text' name='city' defaultValue={data.city} />
-//         <br />
-//         <br />
-
-//         <label> Age : </label>
-//         <input type='number' name='age' defaultValue={data.age} />
-//         <br />
-//         <br />
-
-//         <button type='submit'> {selectedID === 0 ? 'Save' : 'Update'} </button>
-//         <br />
-//         <br />
-//       </form>
-
-//       <select onChange={handelChange} defaultValue={selectedID}>
-//         <option value={0}>Select Based on ID</option>
-//         {users.length > 0 &&
-//           users.map((user) => (
-//             <option value={user.id} key={user.id}>
-//               {user.id}
-//             </option>
-//           ))}
-//       </select>
-//       {'    '}
-//       <button disabled={selectedID === 0} onClick={handleDelete}>
-//         Delete
-//       </button>
-//     </>
-//   );
-// }
-
-// export default Form;
+import { Button, Select, Option, Input, Form1 } from './MuiComponents';
+import { Paper, Grid, Box } from '@mui/material';
 
 function Form({
   handleSubmit,
@@ -56,44 +8,80 @@ function Form({
   handelChange,
   users,
   handleDelete,
+  handleInputChange,
 }) {
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label>Name : </label>
-        <input type='text' name='name' defaultValue={data.name} />
-        <br />
-        <br />
+    <Grid container direction='column' alignItems='center' justify='center'>
+      <Paper elevation={5}>
+        <Box
+          sx={{
+            padding: '0px 20px',
+            bgcolor: '	rgb(224,224,224)',
+          }}
+        >
+          <Form1>
+            <Input
+              label='Name'
+              type='text'
+              name='name'
+              value={data.name}
+              onChange={handleInputChange}
+            />
+            <br />
+            <br />
 
-        <label>City : </label>
-        <input type='text' name='city' defaultValue={data.city} />
-        <br />
-        <br />
+            <Input
+              label='City'
+              type='text'
+              name='city'
+              value={data.city}
+              onChange={handleInputChange}
+            />
+            <br />
+            <br />
 
-        <label>Age : </label>
-        <input type='number' name='age' defaultValue={data.age} />
-        <br />
-        <br />
+            <Input
+              label='Age'
+              type='number'
+              name='age'
+              value={data.age}
+              onChange={handleInputChange}
+            />
+            <br />
+            <br />
 
-        <button type='submit'> {selectedID === 0 ? 'Save' : 'Update'} </button>
-        <br />
-        <br />
-      </form>
+            <Button variant='contained' onClick={handleSubmit}>
+              {' '}
+              {selectedID === 0 ? 'Save' : 'Update'}{' '}
+            </Button>
+            <br />
+            <br />
+          </Form1>
+        </Box>
+      </Paper>
+      <Box sx={{ display: 'flex', padding: '10px' }}>
+        <Select
+          onChange={handelChange}
+          value={selectedID !== 0 ? selectedID : 0}
+        >
+          <Option value={0}>Select Based on ID</Option>
+          {users.length > 0 &&
+            users.map((user) => (
+              <Option value={user.id} key={user.id}>
+                {user.id}
+              </Option>
+            ))}
+        </Select>
 
-      <select onChange={handelChange} value={selectedID !== 0 ? selectedID : 0}>
-        <option value={0}>Select Based on ID</option>
-        {users.length > 0 &&
-          users.map((user) => (
-            <option value={user.id} key={user.id}>
-              {user.id}
-            </option>
-          ))}
-      </select>
-      {'    '}
-      <button disabled={selectedID === 0} onClick={handleDelete}>
-        Delete
-      </button>
-    </>
+        <Button
+          disabled={selectedID === 0}
+          variant='contained'
+          onClick={handleDelete}
+        >
+          Delete
+        </Button>
+      </Box>
+    </Grid>
   );
 }
 

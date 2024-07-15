@@ -18,6 +18,7 @@ function State() {
     handleAllButton,
     handleOnChangeForField,
     handleOnChangeForUniqValue,
+    handleOnInputChange,
   } = useStates();
 
   return (
@@ -31,6 +32,7 @@ function State() {
         data={data}
         users={users}
         selectedID={selectedID}
+        handleInputChange={handleOnInputChange}
       />
       <br />
       <Filter

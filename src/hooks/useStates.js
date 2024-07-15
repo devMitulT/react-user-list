@@ -19,6 +19,9 @@ export function useStates() {
       item.id === id ? { ...item, ...updatedData } : item
     );
   }
+  function handleOnInputChange(e) {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
   function handelChange(e) {
     e.preventDefault();
@@ -36,36 +39,34 @@ export function useStates() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-
-    const newUser = {};
     let isValid = true;
 
-    formData.forEach((value, key) => {
-      if (value.trim() === '') {
-        alert(key + ' should have a value');
-        isValid = false;
-      } else {
-        newUser[key] = value.trim();
-      }
-    });
+    if (
+      data.name.trim() === '' ||
+      data.city.trim() === '' ||
+      data.age.trim() === ''
+    ) {
+      isValid = false;
+      alert(
+        'Please enter proper Details of all field , (empty field is not allowd'
+      );
+    }
 
     if (isValid) {
       if (selectedID !== 0) {
-        const newUsers = update(users, selectedID, newUser);
+        const newUsers = update(users, selectedID, data);
         setUsers(newUsers);
 
         setData(initialState);
       } else {
         setUsers((prevUsers) => [
           ...prevUsers,
-          { id: new Date().getTime(), ...newUser },
+          { id: new Date().getTime(), ...data },
         ]);
       }
     }
     setSelectedID(0);
-
-    e.target.reset();
+    setData(initialState);
   }
 
   function handleDelete() {
@@ -115,5 +116,6 @@ export function useStates() {
     handleAllButton,
     handleOnChangeForField,
     handleOnChangeForUniqValue,
+    handleOnInputChange,
   };
 }

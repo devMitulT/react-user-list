@@ -27,33 +27,35 @@ export function useRedux() {
     (store) => store.user.currentUniqueValue
   );
 
+  function handleOnInputChange(e) {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
   const dispatch = useDispatch();
 
   function handleCreateUser(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const newUser = {};
-    let isValid = true;
 
-    formData.forEach((value, key) => {
-      if (value.trim() === '') {
-        alert(key + ' should have a value');
-        isValid = false;
-      } else {
-        newUser[key] = value;
-      }
-    });
+    let isValid = true;
+    if (
+      data.name.trim() === '' ||
+      data.city.trim() === '' ||
+      data.age.trim() === ''
+    ) {
+      isValid = false;
+      alert(
+        'Please enter proper Details of all field , (empty field is not allowd'
+      );
+    }
 
     if (isValid) {
       if (currentId === 0) {
-        dispatch(addUser({ id: new Date().getTime(), ...newUser }));
+        dispatch(addUser({ id: new Date().getTime(), ...data }));
       } else {
-        dispatch(updateUser(newUser));
+        dispatch(updateUser(data));
         setData(initialState);
       }
     }
-
-    e.target.reset();
   }
 
   function handleOnChange(e) {
@@ -64,8 +66,10 @@ export function useRedux() {
     const selectedUser = users.find((user) => user.id === id);
 
     if (selectedUser) {
+      console.log('in if condition ', selectedUser);
       setData({ ...selectedUser });
     } else if (selectedUser === undefined) {
+      console.log('else ' + selectedUser);
       setData(initialState);
     }
   }
@@ -73,7 +77,6 @@ export function useRedux() {
   function handleDelete(e) {
     e.preventDefault();
     dispatch(deleteUser());
-    // dispatch(selectId(0));
     setData(initialState);
   }
 
@@ -112,5 +115,6 @@ export function useRedux() {
     data,
     filteredUser,
     handleSelectUnique,
+    handleOnInputChange,
   };
 }

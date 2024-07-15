@@ -14,6 +14,10 @@ export function useContextAPI() {
   const [filteredUser, setFilteredUsers] = useState([]);
   const [data, setData] = useState(initialState);
 
+  function handleOnInputChange(e) {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
   function handelChange(e) {
     const id = parseInt(e.target.value);
 
@@ -30,40 +34,38 @@ export function useContextAPI() {
 
   function handleCreateUser(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const newUser = {};
-    let isValid = true;
 
-    formData.forEach((value, key) => {
-      if (value.trim() === '') {
-        alert(key + ' should have a value');
-        isValid = false;
-      } else {
-        newUser[key] = value;
-      }
-    });
+    let isValid = true;
+    if (
+      data.name.trim() === '' ||
+      data.city.trim() === '' ||
+      data.age.trim() === ''
+    ) {
+      isValid = false;
+      alert(
+        'Please enter proper Details of all field , (empty field is not allowd'
+      );
+    }
 
     if (isValid) {
       if (currentId === 0) {
         dispatch({
           type: userConst.SAVE,
-          payload: { id: new Date().getTime(), ...newUser },
+          payload: { id: new Date().getTime(), ...data },
         });
       } else {
         dispatch({
           type: userConst.UPDATE,
-          payload: newUser,
+          payload: data,
         });
       }
     }
 
     setData(initialState);
-
-    e.target.reset();
   }
 
   function handleDelete() {
-    if (users.length == 0) return;
+    if (users.length === 0) return;
 
     dispatch({ type: userConst.DELETE });
     setData(initialState);
@@ -101,5 +103,6 @@ export function useContextAPI() {
     data,
     filteredUser,
     handleSelectUnique,
+    handleOnInputChange,
   };
 }

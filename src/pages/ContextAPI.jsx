@@ -17,6 +17,7 @@ function ContextAPI() {
     data,
     filteredUser,
     handleSelectUnique,
+    handleOnInputChange,
   } = useContextAPI();
 
   return (
@@ -30,6 +31,7 @@ function ContextAPI() {
         handleDelete={handleDelete}
         selectedID={currentId}
         handelChange={handelChange}
+        handleInputChange={handleOnInputChange}
       />
       <br />
       <br />

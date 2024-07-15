@@ -17,6 +17,7 @@ function Redux() {
     data,
     filteredUser,
     handleSelectUnique,
+    handleOnInputChange,
   } = useRedux();
 
   return (
@@ -27,6 +28,7 @@ function Redux() {
         handleDelete={handleDelete}
         handelChange={handleOnChange}
         handleSubmit={handleCreateUser}
+        handleInputChange={handleOnInputChange}
         data={data}
         users={users}
         selectedID={currentId}
