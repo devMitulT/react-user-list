@@ -1,5 +1,5 @@
 import Table from './Table';
-import { Button, Select, Option } from './MuiComponents';
+import { Button, Select, Option, Loader } from './MuiComponents';
 import { Grid, Box } from '@mui/material';
 
 function Filter({
@@ -11,6 +11,7 @@ function Filter({
   filteredUser,
   users,
   uniqueValue,
+  isTable,
 }) {
   function getUniqueValues(field) {
     const uniqueValues = new Set();
@@ -60,7 +61,9 @@ function Filter({
         <Button onClick={handleAllButton}>All</Button>
       </Box>
 
-      {filteredUser.length > 0 && (
+      {isTable && <Loader />}
+
+      {filteredUser.length > 0 && !isTable && (
         <Table users={filteredUser} field={Object.keys(users[0])} />
       )}
     </Grid>

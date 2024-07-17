@@ -19,6 +19,8 @@ const initialState = {
 export function useRedux() {
   const [data, setData] = useState(initialState);
   const [filteredUser, setFilteredUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTable, setIsTable] = useState(false);
 
   const users = useSelector((store) => store.user.users);
   const currentId = useSelector((store) => store.user.currentId);
@@ -35,7 +37,6 @@ export function useRedux() {
 
   function handleCreateUser(e) {
     e.preventDefault();
-
     let isValid = true;
     if (
       data.name.trim() === '' ||
@@ -46,16 +47,25 @@ export function useRedux() {
       alert(
         'Please enter proper Details of all field , (empty field is not allowd'
       );
+    } else {
+      setIsLoading(true);
     }
-
-    if (isValid) {
-      if (currentId === 0) {
-        dispatch(addUser({ id: new Date().getTime(), ...data }));
-      } else {
-        dispatch(updateUser(data));
-        setData(initialState);
-      }
-    }
+    new Promise((resolve) => {
+      setTimeout(() => {
+        if (isValid) {
+          if (currentId === 0) {
+            dispatch(addUser({ id: new Date().getTime(), ...data }));
+            setData(initialState);
+          } else {
+            dispatch(updateUser(data));
+            setData(initialState);
+          }
+        }
+        resolve();
+      }, 1500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleOnChange(e) {
@@ -63,32 +73,55 @@ export function useRedux() {
     const id = parseInt(e.target.value);
     dispatch(selectId(id));
 
-    const selectedUser = users.find((user) => user.id === id);
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        const selectedUser = users.find((user) => user.id === id);
 
-    if (selectedUser) {
-      console.log('in if condition ', selectedUser);
-      setData({ ...selectedUser });
-    } else if (selectedUser === undefined) {
-      console.log('else ' + selectedUser);
-      setData(initialState);
-    }
+        if (selectedUser) {
+          setData({ ...selectedUser });
+        } else if (selectedUser === undefined) {
+          setData(initialState);
+        }
+        resolve();
+      }, 1000);
+    }).then(() => setIsLoading(false));
   }
 
   function handleDelete(e) {
     e.preventDefault();
-    dispatch(deleteUser());
-    setData(initialState);
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        dispatch(deleteUser());
+        setData(initialState);
+        resolve();
+      }, 1000);
+    }).then(() => setIsLoading(false));
   }
 
   function handleAll() {
-    setFilteredUsers(users);
+    setIsTable(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        setFilteredUsers(users);
+
+        resolve();
+      }, 500);
+    }).then(() => setIsTable(false));
   }
 
   function handleFilter() {
-    const data = users.filter(
-      (user) => user[currentField] === currentUniqueValue
-    );
-    setFilteredUsers(data);
+    setIsTable(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        const data = users.filter(
+          (user) => user[currentField] === currentUniqueValue
+        );
+        setFilteredUsers(data);
+        resolve();
+      }, 7000);
+    }).then(() => setIsTable(false));
   }
 
   function handleSelectField(e) {
@@ -116,5 +149,7 @@ export function useRedux() {
     filteredUser,
     handleSelectUnique,
     handleOnInputChange,
+    isLoading,
+    isTable,
   };
 }

@@ -6,11 +6,25 @@ import { MenuItem } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { Table } from '@mui/material';
 import { TableHead, TableBody } from '@mui/material';
-import { TableRow, TableCell } from '@mui/material';
+import {
+  TableRow,
+  TableCell,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 
+import { styled } from '@mui/system';
+
+const Header = styled('div')({
+  color: 'darkslategray',
+  backgroundColor: 'aliceblue',
+  padding: 8,
+  borderRadius: 4,
+  alignItems: 'center',
+});
 
 const Input = (props) => {
-  return <InputComponent size="string" variant='standard' {...props} />;
+  return <InputComponent size='string' variant='standard' {...props} />;
 };
 
 const Label = (props) => {
@@ -34,7 +48,7 @@ const Form1 = (props) => {
 };
 
 const TableComp = (props) => {
-  return <Table sx={{ minWidth: 650 }} aria-label="simple table" {...props} />;
+  return <Table sx={{ minWidth: 650 }} aria-label='simple table' {...props} />;
 };
 
 const Thead = (props) => {
@@ -49,7 +63,15 @@ const TR = (props) => {
 };
 
 const TC = (props) => {
-  return <TableCell align="center" {...props} />;
+  return <TableCell align='center' {...props} />;
+};
+
+const Loader = (props) => {
+  return <CircularProgress {...props} />;
+};
+
+const Text = (props) => {
+  return <Typography {...props} />;
 };
 export {
   Input,
@@ -63,4 +85,7 @@ export {
   TR,
   TC,
   TBody,
+  Loader,
+  Text,
+  Header,
 };

@@ -13,6 +13,8 @@ export function useContextAPI() {
     useUsers();
   const [filteredUser, setFilteredUsers] = useState([]);
   const [data, setData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTable, setIsTable] = useState(false);
 
   function handleOnInputChange(e) {
     setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -23,13 +25,21 @@ export function useContextAPI() {
 
     dispatch({ type: userConst.SELECT_ID, payload: id });
 
-    const selectedUser = users.find((user) => user.id === id);
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        const selectedUser = users.find((user) => user.id === id);
 
-    if (selectedUser) {
-      setData({ ...selectedUser });
-    } else if (selectedUser === undefined) {
-      setData(initialState);
-    }
+        if (selectedUser) {
+          setData({ ...selectedUser });
+        } else if (selectedUser === undefined) {
+          setData(initialState);
+        }
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleCreateUser(e) {
@@ -47,39 +57,72 @@ export function useContextAPI() {
       );
     }
 
-    if (isValid) {
-      if (currentId === 0) {
-        dispatch({
-          type: userConst.SAVE,
-          payload: { id: new Date().getTime(), ...data },
-        });
-      } else {
-        dispatch({
-          type: userConst.UPDATE,
-          payload: data,
-        });
-      }
-    }
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        if (isValid) {
+          if (currentId === 0) {
+            dispatch({
+              type: userConst.SAVE,
+              payload: { id: new Date().getTime(), ...data },
+            });
+          } else {
+            dispatch({
+              type: userConst.UPDATE,
+              payload: data,
+            });
+          }
+        }
 
-    setData(initialState);
+        setData(initialState);
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleDelete() {
     if (users.length === 0) return;
-
-    dispatch({ type: userConst.DELETE });
-    setData(initialState);
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        dispatch({ type: userConst.DELETE });
+        setData(initialState);
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleAll() {
-    setFilteredUsers(users);
+    setIsTable(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        setFilteredUsers(users);
+
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsTable(false);
+    });
   }
 
   function handleFilter() {
     const data = users.filter(
       (user) => user[currentField] === currentUniqueValue
     );
-    setFilteredUsers(data);
+    setIsTable(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        setFilteredUsers(data);
+
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsTable(false);
+    });
   }
 
   function handleSelectField(e) {
@@ -104,5 +147,7 @@ export function useContextAPI() {
     filteredUser,
     handleSelectUnique,
     handleOnInputChange,
+    isLoading,
+    isTable,
   };
 }

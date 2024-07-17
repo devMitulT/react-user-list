@@ -1,5 +1,6 @@
 import Filter from '../components/Filter';
 import Form from '../components/Form';
+import { Header } from '../components/MuiComponents';
 import { useRedux } from '../hooks/useRedux';
 
 function Redux() {
@@ -18,11 +19,13 @@ function Redux() {
     filteredUser,
     handleSelectUnique,
     handleOnInputChange,
+    isLoading,
+    isTable,
   } = useRedux();
 
   return (
     <>
-      <h1>Redux Tool Kit</h1>
+      <Header>Redux Tool Kit</Header>
       <br />
       <Form
         handleDelete={handleDelete}
@@ -32,6 +35,7 @@ function Redux() {
         data={data}
         users={users}
         selectedID={currentId}
+        isLoading={isLoading}
       />
       <br />
       <br />
@@ -44,6 +48,7 @@ function Redux() {
         users={users}
         selectedField={currentField}
         uniqueValue={currentUniqueValue}
+        isTable={isTable}
       />
     </>
   );

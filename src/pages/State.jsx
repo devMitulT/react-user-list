@@ -2,6 +2,7 @@ import Form from '../components/Form';
 import Filter from '../components/Filter';
 
 import { useStates } from '../hooks/useStates';
+import { Header } from '../components/MuiComponents';
 
 function State() {
   const {
@@ -19,11 +20,13 @@ function State() {
     handleOnChangeForField,
     handleOnChangeForUniqValue,
     handleOnInputChange,
+    isLoading,
+    isTable,
   } = useStates();
 
   return (
     <>
-      <h1>Using useState Hook </h1>
+      <Header>Using useState Hook </Header>
       <br />
       <Form
         handleDelete={handleDelete}
@@ -33,6 +36,7 @@ function State() {
         users={users}
         selectedID={selectedID}
         handleInputChange={handleOnInputChange}
+        isLoading={isLoading}
       />
       <br />
       <Filter
@@ -44,6 +48,7 @@ function State() {
         users={users}
         selectedField={selectedField}
         uniqueValue={uniqValue}
+        isTable={isTable}
       />
       <br />
     </>
