@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import Filter from '../components/Filter';
 import Form from '../components/Form';
+import { Header } from '../components/MuiComponents';
 import { useContextAPI } from '../hooks/useContextAPI';
 
 function ContextAPI() {
@@ -17,11 +19,15 @@ function ContextAPI() {
     data,
     filteredUser,
     handleSelectUnique,
+    handleOnInputChange,
+    isLoading,
+    isTable,
   } = useContextAPI();
 
   return (
     <>
-      <h1>ContextAPI + useReducer()</h1>
+      <Header>ContextAPI + useReducer()</Header>
+      <Link to='/'>Back</Link>
       <br />
       <Form
         handleSubmit={handleCreateUser}
@@ -30,6 +36,8 @@ function ContextAPI() {
         handleDelete={handleDelete}
         selectedID={currentId}
         handelChange={handelChange}
+        handleInputChange={handleOnInputChange}
+        isLoading={isLoading}
       />
       <br />
       <br />
@@ -42,6 +50,7 @@ function ContextAPI() {
         users={users}
         selectedField={currentField}
         uniqueValue={currentUniqueValue}
+        isTable={isTable}
       />
     </>
   );

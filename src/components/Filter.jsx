@@ -1,4 +1,6 @@
 import Table from './Table';
+import { Button, Select, Option, Loader } from './MuiComponents';
+import { Grid, Box } from '@mui/material';
 
 function Filter({
   handleAllButton,
@@ -9,6 +11,7 @@ function Filter({
   filteredUser,
   users,
   uniqueValue,
+  isTable,
 }) {
   function getUniqueValues(field) {
     const uniqueValues = new Set();
@@ -20,47 +23,50 @@ function Filter({
     selectedField !== null ? getUniqueValues(selectedField) : [];
 
   return (
-    <>
-      <select
-        onChange={handleOnChangeForField}
-        value={selectedField === 'unknown' ? 'unknown' : selectedField}
-      >
-        <option value='unknown'>Select Field</option>
-        {Object.keys(users[0] || {}).map(
-          (k) =>
-            k !== 'id' && (
-              <option key={k} value={k}>
-                {k}
-              </option>
-            )
-        )}
-      </select>
-
-      {'    '}
-      <select
-        disabled={selectedField === 'unknown'}
-        onChange={handleOnChangeForUniqValue}
-        value={uniqueValue === 'unknown' ? 'unknown' : uniqueValue}
-      >
-        <option value='unknown'>Unique Value</option>
-        {uniqueValues.map((value, index) => (
-          <option key={index} value={value}>
-            {value}
-          </option>
-        ))}
-      </select>
-
-      {'    '}
-      <button onClick={handleFilterButton}>Filter</button>
-      {'    '}
-      <button onClick={handleAllButton}>All</button>
+    <Grid container direction='column' alignItems='center' justify='center'>
       <br />
-      <br />
+      <Box sx={{}}>
+        <Select
+          onChange={handleOnChangeForField}
+          value={selectedField === 'unknown' ? 'unknown' : selectedField}
+        >
+          <Option value='unknown'>Select Field</Option>
+          {Object.keys(users[0] || {}).map(
+            (key) =>
+              key !== 'id' && (
+                <Option key={key} value={key}>
+                  {key.toLocaleUpperCase()}
+                </Option>
+              )
+          )}
+        </Select>
 
-      {filteredUser.length > 0 && (
+        <Select
+          disabled={selectedField === 'unknown'}
+          onChange={handleOnChangeForUniqValue}
+          value={uniqueValue === 'unknown' ? 'unknown' : uniqueValue}
+        >
+          <Option value='unknown'>Unique Value</Option>
+          {uniqueValues.map((value, index) => (
+            <Option key={index} value={value}>
+              {value}
+            </Option>
+          ))}
+        </Select>
+      </Box>
+
+      <Box>
+        <Button onClick={handleFilterButton}>Filter</Button>
+
+        <Button onClick={handleAllButton}>All</Button>
+      </Box>
+
+      {isTable && <Loader />}
+
+      {filteredUser.length > 0 && !isTable && (
         <Table users={filteredUser} field={Object.keys(users[0])} />
       )}
-    </>
+    </Grid>
   );
 }
 

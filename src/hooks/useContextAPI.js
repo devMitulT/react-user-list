@@ -13,71 +13,116 @@ export function useContextAPI() {
     useUsers();
   const [filteredUser, setFilteredUsers] = useState([]);
   const [data, setData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTable, setIsTable] = useState(false);
+
+  function handleOnInputChange(e) {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
 
   function handelChange(e) {
     const id = parseInt(e.target.value);
 
     dispatch({ type: userConst.SELECT_ID, payload: id });
 
-    const selectedUser = users.find((user) => user.id === id);
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        const selectedUser = users.find((user) => user.id === id);
 
-    if (selectedUser) {
-      setData({ ...selectedUser });
-    } else if (selectedUser === undefined) {
-      setData(initialState);
-    }
+        if (selectedUser) {
+          setData({ ...selectedUser });
+        } else if (selectedUser === undefined) {
+          setData(initialState);
+        }
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleCreateUser(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const newUser = {};
+
     let isValid = true;
-
-    formData.forEach((value, key) => {
-      if (value.trim() === '') {
-        alert(key + ' should have a value');
-        isValid = false;
-      } else {
-        newUser[key] = value;
-      }
-    });
-
-    if (isValid) {
-      if (currentId === 0) {
-        dispatch({
-          type: userConst.SAVE,
-          payload: { id: new Date().getTime(), ...newUser },
-        });
-      } else {
-        dispatch({
-          type: userConst.UPDATE,
-          payload: newUser,
-        });
-      }
+    if (
+      data.name.trim() === '' ||
+      data.city.trim() === '' ||
+      data.age.trim() === ''
+    ) {
+      isValid = false;
+      alert(
+        'Please enter proper Details of all field , (empty field is not allowd'
+      );
     }
 
-    setData(initialState);
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        if (isValid) {
+          if (currentId === 0) {
+            dispatch({
+              type: userConst.SAVE,
+              payload: { id: new Date().getTime(), ...data },
+            });
+          } else {
+            dispatch({
+              type: userConst.UPDATE,
+              payload: data,
+            });
+          }
+        }
 
-    e.target.reset();
+        setData(initialState);
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleDelete() {
-    if (users.length == 0) return;
-
-    dispatch({ type: userConst.DELETE });
-    setData(initialState);
+    if (users.length === 0) return;
+    setIsLoading(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        dispatch({ type: userConst.DELETE });
+        setData(initialState);
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsLoading(false);
+    });
   }
 
   function handleAll() {
-    setFilteredUsers(users);
+    setIsTable(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        setFilteredUsers(users);
+
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsTable(false);
+    });
   }
 
   function handleFilter() {
     const data = users.filter(
       (user) => user[currentField] === currentUniqueValue
     );
-    setFilteredUsers(data);
+    setIsTable(true);
+    new Promise((resolve) => {
+      setTimeout(() => {
+        setFilteredUsers(data);
+
+        resolve();
+      }, 500);
+    }).then(() => {
+      setIsTable(false);
+    });
   }
 
   function handleSelectField(e) {
@@ -101,5 +146,8 @@ export function useContextAPI() {
     data,
     filteredUser,
     handleSelectUnique,
+    handleOnInputChange,
+    isLoading,
+    isTable,
   };
 }
