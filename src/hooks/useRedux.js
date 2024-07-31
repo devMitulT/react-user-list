@@ -120,7 +120,7 @@ export function useRedux() {
         );
         setFilteredUsers(data);
         resolve();
-      }, 7000);
+      }, 700);
     }).then(() => setIsTable(false));
   }
 

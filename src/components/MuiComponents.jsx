@@ -16,8 +16,8 @@ import {
 import { styled } from '@mui/system';
 
 const Header = styled('div')({
-  color: 'darkslategray',
-  backgroundColor: 'aliceblue',
+  color: 'rgba(0,0,0)',
+  backgroundColor: 'rgb(224,224,224)',
   padding: 8,
   borderRadius: 4,
   alignItems: 'center',

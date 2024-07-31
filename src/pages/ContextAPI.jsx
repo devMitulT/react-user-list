@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Filter from '../components/Filter';
 import Form from '../components/Form';
 import { Header } from '../components/MuiComponents';
@@ -26,6 +27,7 @@ function ContextAPI() {
   return (
     <>
       <Header>ContextAPI + useReducer()</Header>
+      <Link to='/'>Back</Link>
       <br />
       <Form
         handleSubmit={handleCreateUser}

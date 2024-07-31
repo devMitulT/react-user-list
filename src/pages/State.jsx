@@ -3,6 +3,7 @@ import Filter from '../components/Filter';
 
 import { useStates } from '../hooks/useStates';
 import { Header } from '../components/MuiComponents';
+import { Link } from 'react-router-dom';
 
 function State() {
   const {
@@ -26,6 +27,8 @@ function State() {
 
   return (
     <>
+      <Link to='/'>Back</Link>
+
       <Header>Using useState Hook </Header>
       <br />
       <Form

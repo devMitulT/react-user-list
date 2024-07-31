@@ -1,5 +1,6 @@
 import { Button, Select, Option, Input, Form1, Loader } from './MuiComponents';
 import { Paper, Grid, Box } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 function Form({
   handleSubmit,
@@ -13,56 +14,68 @@ function Form({
 }) {
   return (
     <Grid container direction='column' alignItems='center' justify='center'>
-      {isLoading && <Loader />}
-      {!isLoading && (
-        <Paper elevation={5}>
-          <Box
-            sx={{
-              padding: '0px 20px',
-              bgcolor: '	rgb(224,224,224)',
-            }}
-          >
-            <Form1>
-              <Input
-                label='Name'
-                type='text'
-                name='name'
-                value={data.name}
-                onChange={handleInputChange}
-              />
-              <br />
-              <br />
+      <Paper elevation={5}>
+        <Box
+          sx={{
+            padding: '0px 20px',
+            bgcolor: '	rgb(224,224,224)',
+          }}
+        >
+          <Form1>
+            <Input
+              label='Name'
+              type='text'
+              name='name'
+              value={data.name}
+              onChange={handleInputChange}
+            />
+            <br />
+            <br />
 
-              <Input
-                label='City'
-                type='text'
-                name='city'
-                value={data.city}
-                onChange={handleInputChange}
-              />
-              <br />
-              <br />
+            <Input
+              label='City'
+              type='text'
+              name='city'
+              value={data.city}
+              onChange={handleInputChange}
+            />
+            <br />
+            <br />
 
-              <Input
-                label='Age'
-                type='number'
-                name='age'
-                value={data.age}
-                onChange={handleInputChange}
-              />
-              <br />
-              <br />
+            <Input
+              label='Age'
+              type='number'
+              name='age'
+              value={data.age}
+              onChange={handleInputChange}
+            />
+            <br />
+            <br />
 
-              <Button variant='contained' onClick={handleSubmit}>
-                {' '}
-                {selectedID === 0 ? 'Save' : 'Update'}{' '}
-              </Button>
-              <br />
-              <br />
-            </Form1>
-          </Box>
-        </Paper>
-      )}
+            <Button
+              variant='contained'
+              disabled={isLoading}
+              onClick={handleSubmit}
+            >
+              {isLoading ? (
+                <Loader
+                  size={25}
+                  color='success'
+                  sx={{ color: 'rgb(224,224,224)' }}
+                />
+              ) : selectedID === 0 ? (
+                'Save'
+              ) : (
+                'Update'
+              )}
+            </Button>
+
+            <br />
+            <br />
+          </Form1>
+        </Box>
+      </Paper>
+
       <Box sx={{ display: 'flex', padding: '10px' }}>
         <Select
           onChange={handelChange}

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import State from './pages/State';
 import ContextAPI from './pages/ContextAPI';
 import Redux from './pages/Redux';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <UsersProvider>
         <BrowserRouter>
           <Routes>
-            <Route index element={<h1>Home</h1>} />
+            <Route index element={<Home />} />
             <Route path='/state' element={<State />} />
             <Route path='/contextAPI' element={<ContextAPI />} />
             <Route path='/redux' element={<Redux />} />
